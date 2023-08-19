@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Experiment1{% endblock title %}
+
+
+{% block main-content %}
+<section class="main">
+    <div class="user-area">
+        <img src="{%static 'images/user.png'%}" class="d-block ui-w-40 rounded-circle" alt="" width="250px" height="250px">
+    </div>
+    <div class="chatarea-main">
+        <div class="chatarea-outer">
+
+
+        </div>
+    </div>    
+    <div class="chatbot-area">
+        <img src="{%static 'images/emma.gif'%}" class="d-block ui-w-40 rounded-circle" alt="" width="250px" height="250px">
+    </div>
+<button id="mic" style="width: 70px; height: 70px;"><i class="flaticon-microphone"></i></button>
+</section>
+<script>
+    var classical_music_url = "{% static 'music/beethovon1.mp3' %}";
+    var rock_music_url = "{% static 'music/Hawk-Nelson-Sold-Out-ix.mp3' %}";
+</script>
+<script src="{%static 'js/main1.js'%}"></script>
+
+{% endblock main-content %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Voice Assistant Emma{% endblock title %}
+
+{% block main-content %}
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Voice Assistant Experiment</h1>
+    <div class="row mt-5 justify-content-center">
+      <div class="col-2 text-center">
+        <!-- controlled -->
+        <button class="btn btn-primary btn-block btn-lg mb-3" onclick="location.href='{% url 'experiment1'  %}'">Experiment 1</button>
+      </div>
+      <div class="col-2 text-center">
+        <button class="btn btn-primary btn-block btn-lg mb-3" onclick="location.href='{% url 'experiment2'  %}'">Experiment 2</button>
+      </div>
+      <div class="col-2 text-center">
+        <button class="btn btn-primary btn-block btn-lg mb-3" onclick="location.href='{% url 'experiment3'  %}'">Experiment 3</button>
+      </div>
+      <div class="col-2 text-center">
+        <button class="btn btn-primary btn-block btn-lg mb-3" onclick="location.href='{% url 'experiment4'  %}'">Experiment 4</button>
+      </div>
+      <div class="col-2 text-center">
+        <button class="btn btn-primary btn-block btn-lg mb-3" onclick="location.href='{% url 'experiment5'  %}'">Experiment 5</button>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-5">
+          <div class="card-header">
+            <h3 class="text-center">Ethics and Privacy Statement</h3>
+          </div>
+          <div class="card-body">
+            <p>At Emma, we prioritize and respect the privacy of our users. We are committed to ensuring that any interaction with our voice assistant is conducted in an ethical and responsible manner.</p>
+            <div id="dataPrivacyCollapse">
+              <h5 class="mb-3">
+                <span style="font-weight:bold;">&bull;</span>
+                <span style="font-weight:bold;">Data Privacy</span>
+              </h5>
+              <p>We collect and process the necessary data to provide our voice assistant servics effectively. However, we strictly adhere to data protection regulations and employ industry-standard security measures to safeguard your personal information. Rest assured that we will not share, sell, or misuse any user data beyond the scope of improving our voice assistant's performance.</p>
+
+              <h5>
+                <span style="font-weight:bold;">&bull;</span>
+                <span style="font-weight:bold;">User Consent</span>
+              </h5>
+              
+              <p>We seek your consent before collecting any personal data, ensuring that you are fully aware of the information being collected and the purpose behind it. You have the right to withdraw your consent at any time, and we will promptly take action to respect your decision.</p>
+    
+              <h5>
+                <span style="font-weight:bold;">&bull;</span>
+                <span style="font-weight:bold;">Data Storage</span>
+              </h5>
+              
+              <p>We store user data securely and only retain it for as long as necessary to fulfill the purpose for which it was collected. When the data is no longer needed, it will be deleted securely and irreversibly.</p>
+    
+              
+              <h5>
+                <span style="font-weight:bold;">&bull;</span>
+                <span style="font-weight:bold;">Transparency</span>
+              </h5>
+              <p>We are committed to being transparent about our data practices and will provide you with clear information on what data is collected, how it is used, and how long it is retained. If you have any questions or concerns regarding your privacy while using our voice assistant, please reach out to us through the provided contact information.</p>
+    
+              
+              <h5>
+                <span style="font-weight:bold;">&bull;</span>
+                <span style="font-weight:bold;">Continual Improvement</span>
+              </h5>
+              <p>We constantly strive to improve our voice assistant's performance and functionality. This may include analyzing user interactions and feedback to enhance user experience, but always with the utmost respect for your privacy.</p>
+    
+              <p>By using Emma, you agree to the terms outlined in this ethics and privacy statement.</p>
+
+            </div>
+            <button id="readMoreBtn" class="btn btn-primary mt-4" type="button" data-toggle="collapse" data-target="#dataPrivacyCollapse" aria-expanded="false" aria-controls="dataPrivacyCollapse">Read More</button>
+          </div>
+          <div class="card-footer text-center">
+            <button class="btn btn-success" type="button" id="agree">Agree</button>
+            <button class="btn btn-danger" type="button" id="disagree">Disagree</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  
+    
+    $(document).ready(function() {
+      var expanded = false;
+      var maxHeight = $('#dataPrivacyCollapse').css('height');
+
+      // 初始化折叠框的样式
+      $('#dataPrivacyCollapse').css('height', '110px');
+
+      // 点击按钮折叠/展开折叠框
+      $('#readMoreBtn').click(function() {
+        console.log("test")
+        if (expanded) {
+          // 收缩折叠框
+          console.log("shou")
+          $('#dataPrivacyCollapse').css('height', '110px');
+        } else {
+          // 展开折叠框
+          console.log(maxHeight)
+          $('#dataPrivacyCollapse').css('height', '700px');
+        }
+        
+        expanded = !expanded;
+      });
+      $('#agree').click(function() {
+        alert('Thank you for your agreement. We will follow the instructions for the experiment.');
+      });
+      $('#disagree').click(function() {
+        alert('Thank you very much for your feedback. We understand your point of view.');
+      });
+    });
+  </script>
+
+{% endblock main-content %}

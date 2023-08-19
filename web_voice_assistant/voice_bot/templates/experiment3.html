@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Forum{% endblock title %}
+
+{% block main-content %}
+
+
+<section class="main">
+  <div class="user-area">
+      <img src="{%static 'images/user.png'%}" class="d-block ui-w-40 rounded-circle" alt="" width="250px" height="250px">
+  </div>
+  <div class="chatarea-main">
+      <div class="chatarea-outer">
+          
+      </div>
+  </div>    
+  <div class="chatbot-area">
+      <img src="{%static 'images/emma.gif'%}" class="d-block ui-w-40 rounded-circle" alt="" width="250px" height="250px">
+  </div>
+<button id="mic" style="width: 70px; height: 70px;"><i class="flaticon-microphone"></i></button>
+</section>
+
+<script src="{%static 'js/main3.js'%}"></script>
+
+{% endblock main-content %}
