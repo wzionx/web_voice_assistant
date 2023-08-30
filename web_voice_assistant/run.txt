@@ -1,1 +1,18 @@
+pip install virtualenv -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+pip install django-crispy-forms  -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+virtualenv bot
+source bot/bin/activate
+
+
 python manage.py runserver
+
+数据库迁移文件
+python manage.py makemigrations
+python manage.py migrate
+
+超级管理员：
+账号 root
+密码：1234
+
+
+注意： 需要连接vpn才能正确使用语音识别功能。

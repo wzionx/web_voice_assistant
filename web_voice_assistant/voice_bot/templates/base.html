@@ -14,10 +14,10 @@
 
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #003399">
+    <nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #198853">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
-            <img src="{%static 'images/crab.gif'%}" width="40" height="40" alt="Logo">
+            <img src="{%static 'images/walking.gif'%}" class="d-block ui-w-40 rounded-circle" width="60" height="60" alt="Logo">
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <a class="nav-link text-white  font-weight-bold" href="index_normal.html" style="font-size: 28px">Chat Bot Emma</a>
+                  <a class="nav-link text-white  font-weight-bold" href="{% url 'usersetting' %}" style="font-size: 28px">Setting</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white  font-weight-bold" href="/" style="font-size: 28px">Chat Bot Emma</a>
                 </li>
             </ul>
             <!-- <ul class="navbar-nav ms-auto">
@@ -41,7 +44,7 @@
         </div>
     </nav>
     {% block main-content %}{% endblock main-content %}
-    <footer class="container-fluid fixed-bottom text-center p-2 mt-5 text-white"  style="background-color: #003399">
+    <footer class="container-fluid fixed-bottom text-center p-2 mt-5 text-white"  style="background-color: #198853">
         copyright || Develop by : Emma Tech
     </footer>
 </body>

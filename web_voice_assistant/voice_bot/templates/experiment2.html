@@ -1,9 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Forum{% endblock title %}
+{% block title %}Experiment2{% endblock title %}
 
 {% block main-content %}
 
+<script>
+    // 刷新face
+    var face1_url = "{%static 'images/bot/face1.gif'%}"
+    var face2_url = "{%static 'images/bot/face2.gif'%}"
+    var face3_url = "{%static 'images/bot/face3.gif'%}"
+    var face4_url = "{%static 'images/bot/face4.gif'%}"
+    
+    var face_url = face1_url
+    window.onload = function() {
+      var gif = document.getElementById("gif");
+      setInterval(function() {
+        gif.src = "";
+        gif.src = face_url;
+      }, 3000); // 每隔5秒刷新一次，单位为毫秒
+    };
+</script>
 
 <section class="main">
   <div class="user-area">
@@ -15,11 +31,13 @@
       </div>
   </div>    
   <div class="chatbot-area">
-      <img src="{%static 'images/emma.gif'%}" class="d-block ui-w-40 rounded-circle" alt="" width="250px" height="250px">
+    <img id="gif" src="{%static 'images/bot/face1.gif'%}" class="d-block ui-w-40 rounded-circle" alt="" width="250px" height="250px">
   </div>
 <button id="mic" style="width: 70px; height: 70px;"><i class="flaticon-microphone"></i></button>
 </section>
-
+<script>
+    var classical_music_url = "{% static 'music/beethovon1.mp3' %}";
+    var rock_music_url = "{% static 'music/Hawk-Nelson-Sold-Out-ix.mp3' %}";
+</script>
 <script src="{%static 'js/main2.js'%}"></script>
-
 {% endblock main-content %}

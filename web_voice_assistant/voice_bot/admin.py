@@ -1,24 +1,24 @@
 from django.contrib import admin
 
-from voice_bot.models import Bot, Command
+# Register your models here.
+from voice_bot.models import FreeChatSubject, FreeChatWakeUp,  FreeChatResponse, UserAvatar, User_Email
 
+@admin.register(FreeChatSubject)
+class FreeChatAdmin(admin.ModelAdmin):
+    list_display=["id","subject"]
 
-@admin.register(Bot)
-class BotAdmin(admin.ModelAdmin):
-    list_display = ('description', 'language', 'name',)
-    search_fields = ['name']
+@admin.register(FreeChatWakeUp)
+class FreeChatAdmin(admin.ModelAdmin):
+    list_display=["id","wakeup"]
 
+@admin.register(FreeChatResponse)
+class FreeChatAdmin(admin.ModelAdmin):
+    list_display=["id","response"]
 
-@admin.register(Command)
-class CommandAdmin(admin.ModelAdmin):
-    list_display = ['bot', 'redirect_url', 'description']
-    search_fields = ['bot', 'redirect_url']
-    fieldsets = (
-        (None, {
-            'fields': ('description', 'bot', 'redirect_url', 'trigger_words', 'message')
-        }),
-        ('Advanced options', {
-            'classes': ('collapse',),
-            'fields': ('api_flag', 'api_url', 'api_header'),
-        }),
-    )
+@admin.register(UserAvatar)
+class UserAvatarModelAdmin(admin.ModelAdmin):
+     list_display=['user','user_avatar']
+
+@admin.register(User_Email)
+class User_EmailModelAdmin(admin.ModelAdmin):
+     list_display=['sender_email','sender_name','sender_name','password','recipient_email','subject']

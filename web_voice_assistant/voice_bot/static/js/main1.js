@@ -3,8 +3,11 @@ let audioElement = null;
 let chatareamain = document.querySelector('.chatarea-main');
 let chatareaouter = document.querySelector('.chatarea-outer');
 
+
+
 // 添加多轮对话控制条件
 let currentQuestion = "";
+let email_content="";
 
 let intro = [
     "Hello, I am Emma", 
@@ -36,6 +39,20 @@ let introduce_me = [
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 
+// 初始的声音
+// window.onload = init;
+// function init() {
+//     const speech_init = new SpeechSynthesisUtterance();
+//     speech_init.text = "test test test test"
+//     console.log("test")
+//     window.speechSynthesis.speak(speech_init);
+//     if(speech_init.text != ""){
+//         chatareamain.appendChild(showchatbotmsg(speech_init.text));
+//     } 
+// }
+
+
+
 function showusermsg(usermsg){
     let output = '';
     output += `<div class="chatarea-inner user">${usermsg}</div>`;
@@ -55,6 +72,16 @@ function chatbotvoice(message){
     message = message.toLowerCase();
     const speech = new SpeechSynthesisUtterance();
     speech.text = "";
+
+    for (var i = 0; i < freechat_data.length; i++) {
+        var subArray = freechat_data[i];
+        var wakeups = subArray[0]
+        var responses = subArray[1]
+        if(wakeups.some(x => message.includes(x)) ){
+            let finalresult = responses[Math.floor(Math.random() * responses.length)];
+            speech.text = finalresult;
+        }
+    }
     
     if(message.includes('introduce')){
         let finalresult = introduce_me[Math.floor(Math.random() * introduce_me.length)];
@@ -96,11 +123,11 @@ function chatbotvoice(message){
     if (message.includes('stop music')) {
         // 调用播放音乐的函数
         stopMusic();
-        speech.text = "Sure, music stopped";
+        speech.text = "Music stopped";
         
     }
     
-    if (currentQuestion === "music1") {
+    if (currentQuestion == "music1") {
         if (message.includes('classical')) {
           // 调用播放音乐的函数
             playMusic('classical');
@@ -124,8 +151,37 @@ function chatbotvoice(message){
         currentQuestion = "music1"
     }
 
-    if (currentQuestion === "Email2") {  
+    if (currentQuestion =="google1") {  
+        speech.text = "Sure, search "+ message +" now.";
+        searchOnGoogle(message); // 在新窗口或标签页中打开 Google，并搜索 message 内容
+        currentQuestion = "" 
+    }   
+    if(['search','google'].some(x => message.includes(x)) ){
+        speech.text = "What is your search keyword";   
+        currentQuestion = "google1"
+    }
+
+    
+    
+    if (currentQuestion == "Email2") {  
         if(['yes','sure','ok'].some(x => message.includes(x))){
+            
+            $.ajax({
+                url: '/send-email/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken') // 在请求中包含CSRF令牌
+                },
+                data: {
+                    action: 'send_email',
+                    message: email_content,
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+            
+            email_content = ""
             speech.text = "Email sent";
             currentQuestion = "";  
         }
@@ -135,8 +191,9 @@ function chatbotvoice(message){
         }
     }
     
-    if (currentQuestion === "Email1") {   
+    if (currentQuestion == "Email1") {   
         speech.text = "Ready to send the Email:" + message + " to Jack.";
+        email_content = message
         currentQuestion = "Email2";   
     }
 
@@ -183,7 +240,7 @@ const convertNumberToText = (number) => {
       "eighteen", "nineteen"
     ];
     const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-    if (number === 0) {
+    if (number == 0) {
       return "zero";
     }
     if (number < 20) {
@@ -227,7 +284,11 @@ function stopMusic() {
   }
 }
 
-
+function searchOnGoogle(keyword) {
+    var searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(keyword);
+    window.open(searchUrl, "_blank");
+}
+  
 recognition.onresult=function(e){
     let resultIndex = e.resultIndex;
     let transcript = e.results[resultIndex][0].transcript;
@@ -243,3 +304,20 @@ mic.addEventListener("click", function(){
     recognition.start();
     console.log("Activated");
 })
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+

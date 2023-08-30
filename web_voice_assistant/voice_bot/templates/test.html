@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>页面刷新自动播放语音</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(event) {
+            const chatareamain = document.getElementById('chatareamain');
+          
+            const speech_init = new SpeechSynthesisUtterance();
+            speech_init.text = 'test';
+            
+            window.speechSynthesis.speak(speech_init);
+          
+            if (speech_init.text !== '') {
+              chatareamain.textContent = speech_init.text;
+            }
+        });          
+    </script>
+</head>
+<body>
+    <div id="chatareamain"></div>
+
+    
+</body>
+</html>

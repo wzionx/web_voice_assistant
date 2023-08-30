@@ -6,14 +6,32 @@ let chatareaouter = document.querySelector('.chatarea-outer');
 // 添加多轮对话控制条件
 let currentQuestion = "";
 
-let intro = ["Hello, I am Emma", "Hi, I am a Emma Robot", "Hello, My name is Emma"];
-let help = ["How may i assist you?","How can i help you?","What i can do for you?"];
-let greetings = ["i am good you little piece of love", "i am fine, what about you", "don't want to talk", "i am good"];
-let hobbies = ["i love to talk with humans", "i like to make friends like you", "i like cooking"];
-let pizzas = ["which type of pizza do you like", "i can make a pizza for you", "i would love to make a pizza for you", "would you like cheese pizza?"];
+let intro = [
+    "Hello, I am Emma", 
+    "Hi, I am a Emma Robot", 
+    "Hello, My name is Emma"
+];
+let help = ["How may i assist you?","How can I help you?","What I can do for you?"];
+let greetings = [
+    "I am Emma, your artificial intelligence assistant", 
+    "Hello, I am Emma. I am enjoying the happy day, what about you", 
+    "Hello, have a nice day, I am Emma", 
+    "I am Emma, how are you."
+];
+
+let hobbies = ["I love to talk with humans", "i like to make friends like you", "i like cooking"];
+let pizzas = [
+    "Which type of pizza do you like", 
+    "I can make a pizza for you", 
+    "I would love to make a pizza for you", 
+    "would you like cheese pizza?"
+];
 let thank = ["Most welcome","Not an issue","Its my pleasure","Mention not"];
 let closing = ['Ok bye-bye','As you wish, bye take-care','Bye-bye, see you soon']
-let introduce_me = ['Hello, this is Emma, your voice artifical assistant','Hello, I am your assistant named Emma']
+let introduce_me = [
+    'Hello, this is Emma, your voice artifical assistant',
+    'Hello, I am your assistant named Emma'
+]
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
@@ -36,14 +54,17 @@ function chatbotvoice(message){
     //浏览器语音接口
     message = message.toLowerCase();
     const speech = new SpeechSynthesisUtterance();
-    speech.text = "emm";
+    const speech2 = new SpeechSynthesisUtterance();
+    speech.text = "";
+    speech2.text = "";
+
+    
     
     if(message.includes('introduce')){
         let finalresult = introduce_me[Math.floor(Math.random() * introduce_me.length)];
         speech.text = finalresult;
     }
     if(['who are you','hello','hi'].some(x => message.includes(x)) ){
-        
         let finalresult = intro[Math.floor(Math.random() * intro.length)];
         speech.text = finalresult;
     }
@@ -56,9 +77,8 @@ function chatbotvoice(message){
         let finalresult = greetings[Math.floor(Math.random() * greetings.length)];
         speech.text = finalresult;
     }
-  
     //if(message.includes('tell me something about you' || 'tell me something about your hobbies')){
-    if(['tell me something about you','tell me something about your hobbies'].some(x => message.includes(x)) ){
+    if(['tell me something about you','your hobbies'].some(x => message.includes(x)) ){
         let finalresult = hobbies[Math.floor(Math.random() * hobbies.length)];
         speech.text = finalresult;
     }
@@ -70,36 +90,105 @@ function chatbotvoice(message){
         let finalresult = thank[Math.floor(Math.random() * thank.length)];
         speech.text = finalresult;
     }
-    if(message.includes('talk to you')){
+    if(message.includes('bye')){
         let finalresult = closing[Math.floor(Math.random() * closing.length)];
         speech.text = finalresult;
     }
     // music mode
+    if(currentQuestion == "stop_music_error"){
+        stopMusic();
+        speech.text = "Sorry for the mistake."
+        currentQuestion = ""
+    }
     if (message.includes('stop music')) {
         // 调用播放音乐的函数
-        stopMusic();
-        speech.text = "Sure, I will stop it now";
-        
+        // stopMusic();
+        // speech.text = "Sure, music stopped";
+        currentQuestion = "stop_music_error" 
     }
-    if (message.includes('play music')) {
-        speech.text = "Whose music you want to listen";
-        currentQuestion = "music"
-    }
-    if (currentQuestion === "music") {
-        if (message.includes('symphony of fate')) {
-          // 调用播放音乐的函数
-            playMusic();
-            speech.text = "Sure, this is Beethoven music symphony of fate";
+
+    if(currentQuestion == "music_error"){
+        if (message.includes('classical')) {
+            // 调用播放音乐的函数
+            playMusic('classical');
+            speech.text = "I messed things up. Sorry for the mistake.";
             currentQuestion = "";
         }
     }
 
-    //weather mode
-    if (['temperature','weather'].some(x => message.includes(x))) {
+    if (currentQuestion == "music1") {
+        if (message.includes('classical')) {
+          // 调用播放音乐的函数
+          playMusic('rock');
+          speech.text = "Sure, this is Hawk Nelson's music Sold Out";
+          currentQuestion = "music_error";
+        }
+        else if (message.includes('rock')) {
+            // 调用播放音乐的函数
+              playMusic('rock');
+              speech.text = "Sure, this is Hawk Nelson's music Sold Out";
+              currentQuestion = "";
+        }
+        else{
+            speech.text = "Sorry, we do not have that music";
+            currentQuestion = "";
+        }
+    }
+
+    if (message.includes('play music')) {
+        speech.text = "What kind of music would you like";
+        currentQuestion = "music1"
+    }
+
+    if(currentQuestion == "bing_error"){
+        if(['search','google'].some(x => message.includes(x)) ){
+            speech.text = " Sorry, my bad, now I open it."
+            searchOnBing("London")
+            currentQuestion = ""
+        }
+    }else{
+        if(['search','google'].some(x => message.includes(x)) ){
+            speech.text = "Sure, search it now.";
+            searchOnBing("")
+            currentQuestion = "bing_error"
+        }
+    }
+
+    if (currentQuestion == "Email2") {  
+        if(['yes','sure','ok'].some(x => message.includes(x))){
+            speech.text = "Email sent";
+            currentQuestion = "";  
+        }else if(['no','not'].some(x => message.includes(x))){
+            speech.text = "Sorry for the mistake, I will send an Email to Jack, “I will go to London today."
+            currentQuestion = "Email2";
+        }
+        else{
+            speech.text = "Please say your Email content again";
+            currentQuestion = "Email1";
+        }
+    }
+    
+    if (currentQuestion == "Email1") {   
+        speech.text = "Ready to send an Email to Jack, I will go to London to do";
+        currentQuestion = "Email2";   
+    }
+
+    if (message.includes('email')) {
+        speech.text = "What content do you want to write to Jack";
+        currentQuestion = "Email1";
+    }
+
+    if(currentQuestion != "weather_error1"){ 
+        //weather mode
+        if (['temperature','weather'].some(x => message.includes(x))) {
+            speech.text = " Sorry, I don’t have any clue about the feathers";
+            speech2.text = "Emm, it seems I get something wrong. Could you repeat it again";
+            currentQuestion = "weather_error1";
+        }
+    }else{
         // speech.text = "Which city you want to search";
         var apiKey = 'b90244460d6d9cf80458c4d3d9a4ccd6';
-        var city = 'beijing';
-
+        var city = 'London';
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`)
         .then(response => response.json())
         .then(data => {
@@ -116,11 +205,15 @@ function chatbotvoice(message){
         });
         currentQuestion = "";
     }
-
-    if(currentQuestion != "weather"){
-        window.speechSynthesis.speak(speech);
+    
+    window.speechSynthesis.speak(speech);
+    if(speech.text!=""){
         chatareamain.appendChild(showchatbotmsg(speech.text));
-    }
+    }  
+    window.speechSynthesis.speak(speech2);
+    if(speech2.text!=""){
+        chatareamain.appendChild(showchatbotmsg(speech2.text));
+    }   
 }
 
 const convertNumberToText = (number) => {
@@ -130,7 +223,7 @@ const convertNumberToText = (number) => {
       "eighteen", "nineteen"
     ];
     const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-    if (number === 0) {
+    if (number == 0) {
       return "zero";
     }
     if (number < 20) {
@@ -144,23 +237,26 @@ const convertNumberToText = (number) => {
     return number;
 }
 
-function playMusic() {
-  // 首先检查是否已经在播放音乐，如果是，则先停止当前播放的音乐
-  stopMusic();
-  
-  // 创建 audio 元素
-  audioElement = new Audio();
-
-  audioElement.src = 'music/beethovon1.mp3'; // 设置音乐文件的路径
-  
-  // 监听音乐播放结束事件，以便在结束后清除 audio 元素
-  audioElement.addEventListener('ended', function() {
-    audioElement = null;
-  });
-  
-  // 播放音乐
-  audioElement.play();
-}
+function playMusic(music_type) {
+    // 首先检查是否已经在播放音乐，如果是，则先停止当前播放的音乐
+    stopMusic();
+    
+    // 创建 audio 元素
+    audioElement = new Audio();
+    if(music_type =="classical"){
+        audioElement.src = classical_music_url
+    }
+    else if(music_type =="rock"){
+        audioElement.src = rock_music_url
+    }
+    // 监听音乐播放结束事件，以便在结束后清除 audio 元素
+    audioElement.addEventListener('ended', function() {
+      audioElement = null;
+    });
+    
+    // 播放音乐
+    audioElement.play();
+  }
 
 function stopMusic() {
   // 检查 audio 元素是否存在，如果存在，则停止播放音乐并清除 audio 元素
@@ -171,6 +267,15 @@ function stopMusic() {
   }
 }
 
+function searchOnGoogle(keyword) {
+    var searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(keyword);
+    window.open(searchUrl, "_blank");
+  }
+  
+function searchOnBing(keyword) {
+var searchUrl = "https://www.bing.com/search?q=" + encodeURIComponent(keyword);
+window.open(searchUrl, "_blank");
+}
 
 recognition.onresult=function(e){
     let resultIndex = e.resultIndex;
@@ -185,5 +290,4 @@ recognition.onend=function(){
 mic.addEventListener("click", function(){
     mic.style.background='#39c81f';
     recognition.start();
-    console.log("Activated");
 })
