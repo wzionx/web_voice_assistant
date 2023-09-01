@@ -1,5 +1,5 @@
 # web_voice_assistant
-Here is the code of Django based webbased assistant.
+Here is the code of Django based voice assistant application.
 
 Emma_viz is the data analysis of the collected dataset.
 
